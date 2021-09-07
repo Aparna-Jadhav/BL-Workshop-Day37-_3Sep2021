@@ -6,9 +6,43 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 public class AddressBook_JDBC 
 {
+	
+public void showMenu() throws SQLException {
+		
+		Scanner sc= new Scanner(System.in);
+		System.out.print("\n");
+        System.out.print("\nDataBase Operation Menu ###");
+        System.out.print("\n");
+        System.out.print("\n1.Connection to contacts \n2.Read Contacts \n3.Update contacts  \n4.Count contacts \n5.Add new contact");
+        System.out.print("\n\nChoose your option for DataBase Operation : ");
+        int dbOption = sc.nextInt();
+        
+        switch(dbOption) {
+			case 1 : 
+				eshtablishConnection();
+				break;
+			case 2 : 
+				readAddressBook();
+				break;
+			case 3 : 
+				updateAddressBook();
+				break;
+			case 4 : 
+				countContactsByCity();
+				break;
+			case 5 : 
+				insertContact();
+				break;
+			default :
+				System.out.print("\nInvalid option");
+        }	
+	}
+	
+	
 	public void eshtablishConnection() {
 		Connection conn = getSqlConnection();
 		if (conn != null) {
@@ -39,12 +73,6 @@ public class AddressBook_JDBC
 			if (conn != null) {
 				String readEmpPayroll = "SELECT * FROM AddressBook_service";
 				
-//				int rowsInserted = statement.executeUpdate();
-//		    	if (rowsInserted > 0) {
-//		    	    System.out.println("A new user was inserted successfully!");
-//		    	    System.out.println();
-//		    	}
-				
 				java.sql.Statement statement = conn.createStatement();
 				ResultSet resultSet = statement.executeQuery(readEmpPayroll);
 				while (resultSet.next()) {
@@ -56,9 +84,7 @@ public class AddressBook_JDBC
 					Integer zip = resultSet.getInt(6);
 					String phoneNumber = resultSet.getString(7);
 					String email = resultSet.getString(8);
-//					String family = resultSet.getString(9);
-//					String friends = resultSet.getString(10);
-//					
+				
 					String row = String.format(
 							"User record:\n FirstName: %s,\n LastName: %s, \n Address: %s,  \n City: %s,\n State: %s \n ",
 							firstName, lastName, adress, city, state, zip, phoneNumber, email);

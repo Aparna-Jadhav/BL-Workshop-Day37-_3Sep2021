@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -29,14 +30,47 @@ import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
 public class AddressBook_StreamIO 
 {
+	 List<Person> list;
+	
+	
+	 public AddressBook_StreamIO(ArrayList<Person> list) {
+		
+		this.list = list;
+	}
+	 
+	 public void showMenu() {
+			
+			Scanner sc= new Scanner(System.in);
+			System.out.print("\n");
+	        System.out.print("\nFile Operation Menu ");
+	        System.out.print("\n");
+	        System.out.print("\n1.Write into File \n2.Write into CSV File \n3.Write into JSON File");
+	        System.out.print("\n\nChoose your option for File Operation : ");
+	        int fileOption = sc.nextInt();
+	        
+	        switch(fileOption) {
+				case 1 : 
+					writeIOfile(list);
+		            break;
+				case 2 : 
+					writeJsonFile(list);
+		            break;
+				case 3 : 
+					writeJsonFile(list);
+		            break;
+				default :
+					System.out.print("\nInvalid option");
+	        }	
+		}
+	
+	
 	private static final CharSequence CSV_HEADER = "FNAME,LNAME,STREET,CITY,STATE,COUNTRY,PHONE,ZIP";
 	public String iOFileName = "File_IO.txt";
 	public static String csvFileName = "File_CSV.csv";
 	public String jsonFileName = "File_json.json";
 	
-	ArrayList<Person> list = new ArrayList<Person>();
-
-	public void writeIOfile(ArrayList<Person> list) {
+	
+	public void writeIOfile(List<Person> list) {
 		StringBuffer empBuffer = new StringBuffer();
 		list.forEach(Person -> {
 			String data = list.toString().concat("\n");
@@ -44,23 +78,14 @@ public class AddressBook_StreamIO
 		});
 		try {
 			Files.write(Paths.get(iOFileName), empBuffer.toString().getBytes());
+			System.out.print("\nDetails written into file");
 		} catch (IOException e) {
-			e.getStackTrace();
-		}
-
+			System.out.print("Unable to write contact into file" + e.getMessage());
+		}	
+		
 	}
 
-	public void readIOFile() {
-		System.out.println("Reading IO file");
-		try {
-			System.out.println(new String(Files.readAllBytes(Paths.get(iOFileName))));
-		} catch (IOException e) {
-			e.getStackTrace();
-		}
-
-	}
-
-	public void writeCSVFile(ArrayList<Person> list) {
+	public void writeCSVFile(List<Person> list) {
 		try (Writer writer = Files.newBufferedWriter(Paths.get(csvFileName));) {
 			StatefulBeanToCsv<Person> beanToCsv = new StatefulBeanToCsvBuilder<Person>(writer)
 					.withQuotechar(CSVWriter.NO_QUOTE_CHARACTER).build();
@@ -78,7 +103,7 @@ public class AddressBook_StreamIO
 
 			e.printStackTrace();
 		}
-
+		
 	}
 
 	public void readCSVFile() {
@@ -108,9 +133,7 @@ public class AddressBook_StreamIO
 
 	}
 
-
-	
-	public void writeJsonFile(ArrayList<Person> list) {
+	public void writeJsonFile(List<Person> list) {
 		Gson gson = new Gson();
 		String jsonRead = gson.toJson(list);
 		try {
@@ -169,6 +192,5 @@ public class AddressBook_StreamIO
 //        } catch (ParseException e) {
 //            e.printStackTrace();
 //        }
-//    }
-	
+   	
 }

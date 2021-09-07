@@ -1,40 +1,40 @@
 package com.Section;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
 public class AddressBook 
 {
-	//static ArrayList<Person> list;
-	public static ArrayList<Person> list;
-
-	public AddressBook(ArrayList<Person> list2) {
-		AddressBook.list = list2;
-	}
-	public static void main(String[] args) 
+	public static void main(String[] args) throws SQLException 
 	{
 		Scanner s = new Scanner(System.in);
 		ArrayList<Person> list = new ArrayList<Person>();
 		int choice; 
+		
 		Helper_StreamAPI help = new Helper_StreamAPI();
+		AddressBook_StreamIO addressOfStream_IO = new AddressBook_StreamIO(list);
+		AddressBook_JDBC addressBook_JDBC =new AddressBook_JDBC();
 		boolean status = true;
 		while(status)
 		{
 			System.out.println(" Address Book Management");
 			System.out.println("MENU :");
-			System.out.println("1: addContactPerson                : ");
-			System.out.println("2: editContactPerson               : ");
-			System.out.println("3: deleteContactPerson             : ");
-			System.out.println("4: addMultiplePersons              : ");
-			System.out.println("5: findByFirstname                 : ");
-			System.out.println("6: FindCityAndState                : ");
-			System.out.println("7: countContactPersonByCityOrState : ");
-			System.out.println("8: printAllContactPerson           : ");
-			
-			System.out.println("9: Exit \n");
+			System.out.println("1: Add Contact          : ");
+			System.out.println("2: Edit Contact         : ");
+			System.out.println("3: Delete Contact       : ");
+			System.out.println("4: Add Multiple Contact : ");
+			System.out.println("5: find Contact         : ");
+			System.out.println("6: Find Contact City    : ");
+			System.out.println("7: Count Contact        : ");
+			System.out.println("8: Print Contact        : ");
+			System.out.println("9: File Operation       : ");
+			System.out.println("10: DataBase Operations  : ");
+			System.out.println("11: Exit \n");
 
 
 			System.out.println("--- Enter Your Choice ---");
@@ -65,35 +65,18 @@ public class AddressBook
 				help.printAllContactPerson();
 				break;
 			case 9:
+				addressOfStream_IO.showMenu();
+				break;
+			case 10:
+				addressBook_JDBC.showMenu();
+				break;
+			case 11:
 				status = false;
 				break;
 			}
 		}
-//	  AddressBook_StreamIO addressOfStream_IO = new AddressBook_StreamIO();
-//	  addressOfStream_IO.writeIOfile(list);
-//	  addressOfStream_IO.readIOFile();
-//	  addressOfStream_IO.writeCSVFile(list);
-//	  addressOfStream_IO.readCSVFile();
-////	  addressOfStream_IO.writeAddCSV();
-//	  addressOfStream_IO.writeJsonFile(list);
-////	 addressOfStream_IO.readJsonFile();
-//	
-//	
-	
-	  AddressBook_JDBC addressBookJDBC = new AddressBook_JDBC();
-		addressBookJDBC.eshtablishConnection();
-		addressBookJDBC.readAddressBook();
-		addressBookJDBC.updateAddressBook();
-//		addressBookJDBC.showContactsBetweenGivenDates();
-		addressBookJDBC.countContactsByCity();
-		addressBookJDBC.insertContact();
-	
-	
-	
+	 
 	}
-	
-	
-	
 }
 	
 
